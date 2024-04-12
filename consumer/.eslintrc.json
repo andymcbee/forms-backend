@@ -1,0 +1,23 @@
+{
+  "extends": [
+    "airbnb-typescript/base", // Use the base config instead of the full React config
+    "plugin:@typescript-eslint/recommended", // Recommended rules from @typescript-eslint
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["@typescript-eslint", "prettier", "import"],
+  "rules": {
+    "prettier/prettier": ["error"],
+    "no-console": "warn"
+    // You can add or override rules here
+  },
+  "env": {
+    "node": true, // Ensures global variables like 'process' are recognized
+    "es2020": true
+  }
+}

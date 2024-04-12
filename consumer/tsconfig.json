@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    /* Basic Options */
+    "target": "es2019", // Set the JavaScript version for emitted JavaScript and include compatible library declarations.
+    "module": "commonjs", // Set the module system, Node.js uses CommonJS.
+    "lib": ["es2019"], // Specify a list of library files to be included in the compilation.
+    "outDir": "./dist", // Redirect output structure to the directory.
+    "rootDir": "./src", // Specify the root directory of input files.
+    "strict": true, // Enable all strict type-checking options.
+    "esModuleInterop": true, // Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports.
+    "skipLibCheck": true, // Skip type checking of all declaration files (*.d.ts).
+    "forceConsistentCasingInFileNames": true, // Disallow inconsistently-cased references to the same file.
+
+    /* Module Resolution Options */
+    "moduleResolution": "node", // Resolve modules using Node.js's module resolution strategy.
+    "baseUrl": "./", // Base directory to resolve non-absolute module names.
+    "paths": {
+      // A series of entries which re-map imports to lookup locations relative to the 'baseUrl'.
+      "*": ["node_modules/*", "src/types/*"]
+    },
+
+    /* Advanced Options */
+    "resolveJsonModule": true, // Include modules imported with '.json' extension.
+    "allowSyntheticDefaultImports": true // Allow default imports from modules with no default export.
+  },
+  "include": [
+    "src/**/*.ts" // Specify files or directories to include in the program.
+  ],
+  "exclude": [
+    "node_modules", // Exclude the node_modules directory from the compilation.
+    "**/*.spec.ts" // Exclude test files.
+  ]
+}
