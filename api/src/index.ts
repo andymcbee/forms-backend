@@ -1,11 +1,22 @@
+import dotenv from "dotenv";
+dotenv.config();
+
+import db from "./config/db";
 import express from "express";
 import helmet from "helmet";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
 import formRoutes from "./routes/formRoutes";
 
+//console.log(process.env);
+
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Database connection check
+db.connect()
+  .then(() => console.log("Connected to database"))
+  .catch((err) => console.error("Failed to connect to database", err));
 
 app.use(helmet());
 app.use(cors());
