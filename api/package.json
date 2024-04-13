@@ -41,6 +41,7 @@
     "express": "^4.19.2",
     "express-rate-limit": "^7.2.0",
     "helmet": "^7.1.0",
+    "kafkajs": "^2.2.4",
     "pg": "^8.11.5",
     "zod": "^3.22.4",
     "zod-validation-error": "^3.1.0"

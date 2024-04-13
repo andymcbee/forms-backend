@@ -5,6 +5,7 @@ import type { SubmitFormRequestBody } from "api/forms/SubmitFormRequestBody";
 import { submitFormRequestBodySchema } from "../models/api/forms/submitFormRequestBodySchema";
 import { fromZodError } from "zod-validation-error";
 import { checkDomain } from "../services/domainsServices";
+import kafkaProducer from "../repo/brokerRepo";
 
 export const submitForm = async (req: Request, res: Response) => {
   // Handle form submission logic here
@@ -29,7 +30,6 @@ export const submitForm = async (req: Request, res: Response) => {
         host = xForwardedHost;
       }
     }
-    console.log(host);
 
     //confirm requesint host domain exists in db
 
@@ -43,7 +43,9 @@ export const submitForm = async (req: Request, res: Response) => {
     }
 
     // Access validated data
-    const { "form-name": formType, data } = validatedData;
+    //const { "form-name": formType, data } = validatedData;
+
+    await kafkaProducer("form-submission", host, validatedData);
 
     const successResponse: SuccessResponse = {
       message: "Form submitted successfully.",
