@@ -4,14 +4,43 @@ import type { SuccessResponse } from "api/SuccessResponse";
 import type { SubmitFormRequestBody } from "api/forms/SubmitFormRequestBody";
 import { submitFormRequestBodySchema } from "../models/api/forms/submitFormRequestBodySchema";
 import { fromZodError } from "zod-validation-error";
+import { checkDomain } from "../services/domainsServices";
 
-export const submitForm = (req: Request, res: Response) => {
+export const submitForm = async (req: Request, res: Response) => {
   // Handle form submission logic here
   const requestBody: SubmitFormRequestBody = req.body;
 
   try {
     // Validate request body against schema
     const validatedData = submitFormRequestBodySchema.parse(requestBody);
+
+    // Validate the host exists on the request
+    let host = req.hostname;
+    // Check if x-forwarded-host is present and handle it
+    // note that it may be string OR array
+
+    const xForwardedHost = req.headers["x-forwarded-host"];
+    if (xForwardedHost) {
+      if (Array.isArray(xForwardedHost)) {
+        // If it's an array, take the first host (closest proxy to the server)
+        host = xForwardedHost[0];
+      } else {
+        // If it's a single value, use it directly
+        host = xForwardedHost;
+      }
+    }
+    console.log(host);
+
+    //confirm requesint host domain exists in db
+
+    const isDomainOnSafelist = await checkDomain(host);
+
+    // If not on safelist, return error
+
+    if (!isDomainOnSafelist) {
+      res.status(403).json({ error: "Domain not authorized." });
+      return;
+    }
 
     // Access validated data
     const { "form-name": formType, data } = validatedData;

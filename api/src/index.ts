@@ -8,8 +8,6 @@ import cors from "cors";
 import rateLimit from "express-rate-limit";
 import formRoutes from "./routes/formRoutes";
 
-//console.log(process.env);
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 

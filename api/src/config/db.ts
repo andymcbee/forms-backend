@@ -1,7 +1,5 @@
 import { Pool } from "pg";
 
-console.log(process.env.DB_PASSWORD);
-
 const pool = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
