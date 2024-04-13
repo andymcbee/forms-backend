@@ -32,6 +32,8 @@ app.use(express.json());
 
 app.use("/api/v1/forms", formRoutes);
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+export { app, server }; // Export the server for use in tests
