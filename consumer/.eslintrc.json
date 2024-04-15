@@ -13,7 +13,8 @@
   "plugins": ["@typescript-eslint", "prettier", "import"],
   "rules": {
     "prettier/prettier": ["error"],
-    "no-console": "warn"
+    "no-console": "warn",
+    "comma-dangle": "off"
     // You can add or override rules here
   },
   "env": {
