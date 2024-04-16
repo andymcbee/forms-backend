@@ -4,7 +4,7 @@ interface BaseDomain {
 }
 
 interface Domain extends BaseDomain {
-  id: number;
+  id: string;
   created_at: Date;
 }
 
