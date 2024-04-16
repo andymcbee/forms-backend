@@ -25,7 +25,7 @@ app.use(cors());
 const limiterMaxPerWindow = 100;
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: limiterMaxPerWindow, // limit each IP to 100 requests per windowMs
+  max: limiterMaxPerWindow // limit each IP to 100 requests per windowMs
 });
 
 // check if limiter is above 20, which is likely to be too much per ip for form submissions

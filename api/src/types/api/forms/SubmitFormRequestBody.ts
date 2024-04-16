@@ -1,4 +1,4 @@
 export interface SubmitFormRequestBody {
-  "form-name": string;
+  formName: string;
   data: Record<string, unknown>;
 }
