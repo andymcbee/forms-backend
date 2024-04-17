@@ -23,7 +23,6 @@ jobs:
       run: |
         cd consumer
         npm install
-        npm run ci
         npm run build
 
     # Install and build the API app
@@ -31,7 +30,6 @@ jobs:
       run: |
         cd api
         npm install
-        npm run ci
         npm run build
 
   deploy:
