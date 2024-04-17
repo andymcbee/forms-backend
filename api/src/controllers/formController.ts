@@ -38,7 +38,7 @@ export const submitForm = async (req: Request, res: Response) => {
     // If not on safelist, return error
 
     if (!isDomainOnSafelist) {
-      res.status(403).json({ error: "Domain not authorized." });
+      res.status(403).json({ error: "Domain not authorized: " + host });
       return;
     }
 
@@ -48,7 +48,7 @@ export const submitForm = async (req: Request, res: Response) => {
     await kafkaProducer("form-submission", host, validatedData);
 
     const successResponse: SuccessResponse = {
-      message: "Form submitted successfully.",
+      message: "Form submitted successfully."
     };
 
     res.status(200).json(successResponse);
