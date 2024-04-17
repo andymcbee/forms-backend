@@ -1,7 +1,9 @@
 import type { FormSubmissionData } from "../consumers/formSubmissionsConsumer";
 import { BaseFormSubmission } from "../models/FormSubmission";
 import { createOneFormSubmission } from "../repo/createOneFormSubmission";
+import { selectAllNotifEmailsByDomainId } from "../repo/selectAllNotifEmailsByDomainId";
 import { selectOneDomainByDomainName } from "../repo/selectOneDomainByDomainName";
+import { sendEmail } from "./sendEmail";
 
 export default async function formSubmissionService(
   formSubmissionData: FormSubmissionData
@@ -20,6 +22,14 @@ export default async function formSubmissionService(
     };
 
     const newSubmission = await createOneFormSubmission(formSubmission);
+
+    const notifEmails = await selectAllNotifEmailsByDomainId(domain.id);
+
+    for (let i = 0; i < notifEmails.length; i++) {
+      const email = notifEmails[i].email;
+
+      await sendEmail(email, formSubmissionData);
+    }
 
     console.log("New sub::");
     console.log(newSubmission);

@@ -9,7 +9,7 @@ import rateLimit from "express-rate-limit";
 import formRoutes from "./routes/formRoutes";
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3222;
 
 // Database connection check
 db.connect()

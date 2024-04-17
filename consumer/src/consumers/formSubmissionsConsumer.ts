@@ -14,8 +14,11 @@ export interface FormSubmissionData {
 
 const kafka = new Kafka({
   clientId: "my-app",
-  brokers: ["localhost:9092"]
+  brokers: [process.env.KAFKA_BOOTSTRAP_SERVERS || "localhost:9092"]
 });
+
+console.log("CONSUMER SIDE BOOTSTRAP SERVERS::::");
+console.log(process.env.KAFKA_BOOTSTRAP_SERVERS);
 
 const consumer = kafka.consumer({ groupId: "form-notification-group" });
 

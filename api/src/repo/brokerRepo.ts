@@ -5,7 +5,7 @@ const kafkaProducer = async (topic: string, key: string | null, value: any) => {
   console.log(`Topic::: ${topic}`);
   const kafka = new Kafka({
     clientId: "my-app",
-    brokers: ["localhost:9092"]
+    brokers: [process.env.KAFKA_BOOTSTRAP_SERVERS || "localhost:9092"]
   });
   const producer = kafka.producer();
 
