@@ -37,7 +37,7 @@ jobs:
           export DB_HOST=${{ secrets.DB_HOST }}
           export DB_NAME=${{ secrets.DB_NAME }}
           export KAFKA_BOOTSTRAP_SERVERS=${{ secrets.KAFKA_BOOTSTRAP_SERVERS }}
-          # Export other environment variables here
+          # Export other environment variables
           docker compose pull  # Optionally, if you need to pull updated images
           docker compose up --build -d
       env:
