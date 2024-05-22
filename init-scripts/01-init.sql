@@ -35,6 +35,15 @@ CREATE TABLE IF NOT EXISTS emails (
     FOREIGN KEY (domain_id) REFERENCES domains(id)
 );
 
-INSERT INTO domains (domain_name) VALUES ('example.com');
+INSERT INTO domains (id, domain_name) VALUES (1, 'customertrust.io');
 
 INSERT INTO emails (domain_id, email) VALUES (1, 'armcburn@gmail.com');
+
+INSERT INTO domains (id, domain_name) VALUES (2, 'localhost');
+
+INSERT INTO emails (domain_id, email) VALUES (2, 'armcburn@gmail.com');
+
+INSERT INTO domains (id, domain_name) VALUES (3, 'forms.customertrust.io');
+
+INSERT INTO emails (domain_id, email) VALUES (3, 'armcburn@gmail.com');
+

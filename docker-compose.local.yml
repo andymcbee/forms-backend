@@ -5,30 +5,23 @@ services:
     depends_on:
       - db
       - kafka
+    env_file:
+      - ./consumer/.env.docker
     environment:
-      - NODE_ENV=${NODE_ENV}
-      - DB_HOST=${DB_HOST}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME}
-      - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS}
-      - POSTMARK_API_KEY=${POSTMARK_API_KEY}
+      - NODE_ENV=docker
     restart: unless-stopped
 
   api:
     build: ./api
+    env_file:
+      - ./api/.env.docker
     ports:
       - "3222:3222"
     depends_on:
       - db
       - kafka
     environment:
-      - NODE_ENV=${NODE_ENV}
-      - DB_HOST=${DB_HOST}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME}
-      - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS}
+      - NODE_ENV=docker
     restart: unless-stopped
 
   db:

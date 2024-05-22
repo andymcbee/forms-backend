@@ -7,8 +7,8 @@ describe("POST /api/v1/forms/submit-form", () => {
     const postData = {
       "form-name": "Form Name Here",
       data: {
-        name: "Jim",
-      },
+        name: "Jim"
+      }
     };
 
     // Making the POST request with the body data
@@ -19,7 +19,7 @@ describe("POST /api/v1/forms/submit-form", () => {
     // Assertions
     expect(response.status).toBe(200);
     expect(response.body).toEqual({
-      message: "Form submitted successfully.",
+      message: "Form submitted successfully."
     });
   });
 
@@ -35,7 +35,7 @@ describe("POST /api/v1/forms/submit-form", () => {
     // Assertions
     expect(response.status).toBe(400);
     expect(response.body).toEqual({
-      error: 'Validation error: Required at "form-name"; Required at "data"',
+      error: 'Validation error: Required at "form-name"; Required at "data"'
     });
   });
 

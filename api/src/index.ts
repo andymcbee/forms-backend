@@ -1,5 +1,12 @@
-import dotenv from "dotenv";
-dotenv.config();
+import loadEnv from "./config/loadEnv";
+
+// Load the appropriate .env file
+
+if (process.env.NODE_ENV !== "production") {
+  loadEnv();
+} else {
+  console.log("NODE_ENV set to production. No .env file needs to be loaded.");
+}
 
 import db from "./config/db";
 import express from "express";
@@ -42,6 +49,7 @@ app.use(express.json());
 app.use("/api/v1/forms", formRoutes);
 
 const server = app.listen(PORT, () => {
+  console.log("This is a test. Confirming build is happening.");
   console.log(`Server is running on port ${PORT}`);
 });
 

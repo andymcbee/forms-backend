@@ -17,9 +17,6 @@ const kafka = new Kafka({
   brokers: [process.env.KAFKA_BOOTSTRAP_SERVERS || "localhost:9092"]
 });
 
-console.log("CONSUMER SIDE BOOTSTRAP SERVERS::::");
-console.log(process.env.KAFKA_BOOTSTRAP_SERVERS);
-
 const consumer = kafka.consumer({ groupId: "form-notification-group" });
 
 export const run = async () => {
@@ -40,17 +37,11 @@ export const run = async () => {
           );
           const host = message.key.toString();
 
-          console.log("What is this:::");
-          console.log(formSubmissionMessage);
-
           const formSubmissionData: FormSubmissionData = {
             data: formSubmissionMessage.data,
             formName: formSubmissionMessage.formName,
             host: host
           };
-
-          console.log("In consumer:::");
-          console.log(formSubmissionData);
 
           await formSubmissionService(formSubmissionData);
 

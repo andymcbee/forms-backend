@@ -21,6 +21,7 @@ export const submitForm = async (req: Request, res: Response) => {
     // note that it may be string OR array
 
     const xForwardedHost = req.headers["x-forwarded-host"];
+    console.log("xForwardHost::: " + xForwardedHost);
     if (xForwardedHost) {
       if (Array.isArray(xForwardedHost)) {
         // If it's an array, take the first host (closest proxy to the server)
@@ -30,6 +31,8 @@ export const submitForm = async (req: Request, res: Response) => {
         host = xForwardedHost;
       }
     }
+
+    console.log("***Host is set to: " + host);
 
     //confirm requesint host domain exists in db
 
@@ -57,10 +60,10 @@ export const submitForm = async (req: Request, res: Response) => {
       // convert zod error to human readable
       const validationError = fromZodError(error);
 
-      res.status(400).json({ error: validationError.toString() });
+      res.status(400).json({ message: validationError.toString() });
     } else {
       // Other types of errors
-      res.status(500).json({ error: "An error has occurred." });
+      res.status(500).json({ message: "An error has occurred." });
     }
   }
 };

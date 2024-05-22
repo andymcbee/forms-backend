@@ -12,8 +12,6 @@ export default async function formSubmissionService(
     console.log(formSubmissionData);
 
     const domain = await selectOneDomainByDomainName(formSubmissionData.host);
-    console.log("Domain::");
-    console.log(domain);
 
     const formSubmission: BaseFormSubmission = {
       domain_id: domain.id,
@@ -30,9 +28,6 @@ export default async function formSubmissionService(
 
       await sendEmail(email, formSubmissionData);
     }
-
-    console.log("New sub::");
-    console.log(newSubmission);
   } catch (error) {
     throw error;
   }
