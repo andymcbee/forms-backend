@@ -26,6 +26,8 @@ export const submitForm = async (req: Request, res: Response) => {
 
     console.log("Host:::: " + req.headers.host);
 
+    console.log("Ref::: " + req.headers.host);
+
     const xForwardedHost = req.headers["x-forwarded-host"];
     console.log("xForwardHost::: " + xForwardedHost);
     if (xForwardedHost) {
