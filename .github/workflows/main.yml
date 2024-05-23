@@ -20,17 +20,12 @@ jobs:
         KAFKA_BOOTSTRAP_SERVERS: ${{ secrets.KAFKA_BOOTSTRAP_SERVERS }}
         POSTMARK_API_KEY: ${{ secrets.POSTMARK_API_KEY }}
 
-    - name: Prepare SSH Environment
-      run: |
-        mkdir -p ~/.ssh
-        ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
-
     - name: Deploy to VPS
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: ${{ secrets.PORT }}
         script: |
           cd /home/andrew/apps/forms-backend
@@ -43,7 +38,7 @@ jobs:
           export KAFKA_BOOTSTRAP_SERVERS=${{ secrets.KAFKA_BOOTSTRAP_SERVERS }}
           export POSTMARK_API_KEY=${{ secrets.POSTMARK_API_KEY }}
           # Export other environment variables here
-          docker compose pull  # Optionally, if you need to pull updated images
+          docker compose pull  # Optionally, if you need to pull updated imagess
           docker compose up --build -d
       env:
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
