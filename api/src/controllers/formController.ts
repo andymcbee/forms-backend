@@ -16,7 +16,11 @@ export const submitForm = async (req: Request, res: Response) => {
     const validatedData = submitFormRequestBodySchema.parse(requestBody);
 
     // Validate the host exists on the request
-    let host = req.hostname;
+    const ref = req.headers.referer as string;
+
+    if (!ref) {
+      throw Error("No ref name provided.");
+    }
 
     console.log("FULL REQUEST HEADERS START");
     console.log(JSON.stringify(req.headers));
@@ -24,12 +28,9 @@ export const submitForm = async (req: Request, res: Response) => {
     // Check if x-forwarded-host is present and handle it
     // note that it may be string OR array
 
-    console.log("Host:::: " + req.headers.host);
-
-    console.log("Ref::: " + req.headers.host);
-
+    // I DON'T THINK WE NEED TO WORRY ABOUT THIS. KEEP IT IN FOR NOW UNTIL CONFIRMED.
+    /* 
     const xForwardedHost = req.headers["x-forwarded-host"];
-    console.log("xForwardHost::: " + xForwardedHost);
     if (xForwardedHost) {
       if (Array.isArray(xForwardedHost)) {
         // If it's an array, take the first host (closest proxy to the server)
@@ -38,25 +39,25 @@ export const submitForm = async (req: Request, res: Response) => {
         // If it's a single value, use it directly
         host = xForwardedHost;
       }
-    }
+    } */
 
-    console.log("***Host is set to: " + host);
+    console.log("***Host is set to: " + ref);
 
     //confirm requesint host domain exists in db
 
-    const isDomainOnSafelist = await checkDomain(host);
+    const isDomainOnSafelist = await checkDomain(ref);
 
     // If not on safelist, return error
 
     if (!isDomainOnSafelist) {
-      res.status(403).json({ error: "Domain not authorized: " + host });
+      res.status(403).json({ error: "Domain not authorized: " + ref });
       return;
     }
 
     // Access validated data
     //const { "form-name": formType, data } = validatedData;
 
-    await kafkaProducer("form-submission", host, validatedData);
+    await kafkaProducer("form-submission", ref, validatedData);
 
     const successResponse: SuccessResponse = {
       message: "Form submitted successfully."
