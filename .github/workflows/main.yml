@@ -12,6 +12,13 @@ jobs:
     
     - name: Build Docker Images
       run: docker-compose build
+      env:
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        KAFKA_BOOTSTRAP_SERVERS: ${{ secrets.KAFKA_BOOTSTRAP_SERVERS }}
+        POSTMARK_API_KEY: ${{ secrets.POSTMARK_API_KEY }}
 
     - name: Deploy to VPS
       uses: appleboy/ssh-action@master
@@ -19,10 +26,26 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_KEY }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE }}
         port: ${{ secrets.PORT }}
         script: |
-          cd /home/forms-backend
+          cd /home/andrew/apps/forms-backend
           git pull
           docker compose down
+          export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          export DB_USER=${{ secrets.DB_USER }}
+          export DB_HOST=${{ secrets.DB_HOST }}
+          export DB_NAME=${{ secrets.DB_NAME }}
+          export KAFKA_BOOTSTRAP_SERVERS=${{ secrets.KAFKA_BOOTSTRAP_SERVERS }}
+          export POSTMARK_API_KEY=${{ secrets.POSTMARK_API_KEY }}
+          # Export other environment variables
           docker compose pull  # Optionally, if you need to pull updated images
           docker compose up --build -d
+      env:
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        KAFKA_BOOTSTRAP_SERVERS: ${{ secrets.KAFKA_BOOTSTRAP_SERVERS }}
+        POSTMARK_API_KEY: ${{ secrets.POSTMARK_API_KEY }}
+
