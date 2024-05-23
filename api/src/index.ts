@@ -24,7 +24,17 @@ db.connect()
   .catch((err) => console.error("Failed to connect to database", err));
 
 app.use(helmet());
-app.use(cors());
+
+const corsOptions = {
+  origin: [
+    "https://customertrust.io",
+    "http://customertrust.io",
+    "http://localhost:3001"
+  ],
+  optionsSuccessStatus: 200 // For legacy browser support
+};
+
+app.use(cors(corsOptions));
 
 // Limiter is meant to avoid spam on the submissions endpoint. If we expand API,
 // create a subsmissions specific limiter so we can control both independantly
