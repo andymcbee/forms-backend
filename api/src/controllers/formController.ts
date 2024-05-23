@@ -17,8 +17,14 @@ export const submitForm = async (req: Request, res: Response) => {
 
     // Validate the host exists on the request
     let host = req.hostname;
+
+    console.log("FULL REQUEST HEADERS START");
+    console.log(JSON.stringify(req.headers));
+    console.log("FULL REQUEST HEADERS END");
     // Check if x-forwarded-host is present and handle it
     // note that it may be string OR array
+
+    console.log("Host:::: " + req.headers.host);
 
     const xForwardedHost = req.headers["x-forwarded-host"];
     console.log("xForwardHost::: " + xForwardedHost);
