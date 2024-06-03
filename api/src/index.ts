@@ -61,6 +61,7 @@ app.use("/api/v1/forms", formRoutes);
 const server = app.listen(PORT, () => {
   console.log("This is a test. #123.");
   console.log(`Server is running on port ${PORT}`);
+  console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
 });
 
 export { app, server }; // Export the server for use in tests
