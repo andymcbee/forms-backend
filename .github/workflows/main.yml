@@ -19,6 +19,7 @@ jobs:
         DB_NAME: ${{ secrets.DB_NAME }}
         KAFKA_BOOTSTRAP_SERVERS: ${{ secrets.KAFKA_BOOTSTRAP_SERVERS }}
         POSTMARK_API_KEY: ${{ secrets.POSTMARK_API_KEY }}
+        SUPER_KEY: ${{ secrets.SUPER_KEY }}
 
     - name: Deploy to VPS
       uses: appleboy/ssh-action@master
@@ -37,6 +38,7 @@ jobs:
           export DB_NAME=${{ secrets.DB_NAME }}
           export KAFKA_BOOTSTRAP_SERVERS=${{ secrets.KAFKA_BOOTSTRAP_SERVERS }}
           export POSTMARK_API_KEY=${{ secrets.POSTMARK_API_KEY }}
+          export SUPER_KEY=${{ secrets.SUPER_KEY }}          
           # Export other environment variables
           docker compose pull  # Optionally, if you need to pull updated imagess
           docker compose up --build -d
@@ -47,3 +49,4 @@ jobs:
         DB_NAME: ${{ secrets.DB_NAME }}
         KAFKA_BOOTSTRAP_SERVERS: ${{ secrets.KAFKA_BOOTSTRAP_SERVERS }}
         POSTMARK_API_KEY: ${{ secrets.POSTMARK_API_KEY }}
+        SUPER_KEY: ${{ secrets.SUPER_KEY }}
