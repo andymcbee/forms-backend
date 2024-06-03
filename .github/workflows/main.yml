@@ -40,7 +40,7 @@ jobs:
           export POSTMARK_API_KEY=${{ secrets.POSTMARK_API_KEY }}
           export SUPER_KEY=${{ secrets.SUPER_KEY }}          
           # Export other environment variables
-          docker compose pull  # Optionally, if you need to pull updated imagess
+          docker compose pull  # Optionally, if you need to pull updated images
           docker compose up --build -d
       env:
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
