@@ -6,9 +6,6 @@ export const authMiddleware = (
   next: NextFunction
 ) => {
   const apiKey = req.headers["x-api-key"];
-  console.log("Api key::");
-  console.log(apiKey);
-  console.log(process.env.SUPER_KEY);
 
   if (!apiKey) {
     return res.status(401).json({ message: "API key is required" });
