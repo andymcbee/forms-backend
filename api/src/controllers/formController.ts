@@ -6,6 +6,10 @@ import { submitFormRequestBodySchema } from "../models/api/forms/submitFormReque
 import { fromZodError } from "zod-validation-error";
 import { checkDomain } from "../services/domainsServices";
 import kafkaProducer from "../repo/brokerRepo";
+import {
+  selectUnprocessedSubmissions,
+  updateSubmissionProcessedStatus
+} from "../repo/submissionsRepo";
 
 export const submitForm = async (req: Request, res: Response) => {
   // Handle form submission logic here
@@ -72,7 +76,65 @@ export const submitForm = async (req: Request, res: Response) => {
       res.status(400).json({ message: validationError.toString() });
     } else {
       // Other types of errors
-      res.status(500).json({ message: "An error has occurred." });
+      res.status(500).json({ message: "An error has occurred.", error });
+    }
+  }
+};
+
+export const updateFormStatus = async (req: Request, res: Response) => {
+  // Handle form submission logic here
+  const { formName, formId } = req.params;
+  const { status } = req.body;
+
+  const id = Number(formId);
+
+  try {
+    // update.. pass form name plus id
+
+    const updatedSubmission = await updateSubmissionProcessedStatus(
+      formName,
+      id,
+      status
+    );
+
+    res
+      .status(200)
+      .json({ message: "Submission status updated.", data: updatedSubmission });
+  } catch (error) {
+    if (error instanceof ZodError) {
+      // convert zod error to human readable
+      const validationError = fromZodError(error);
+
+      res.status(400).json({ message: validationError.toString() });
+    } else {
+      // Other types of errors
+      res.status(500).json({ message: "An error has occurred.", error });
+    }
+  }
+};
+
+//fetches unprocessed forms
+export const getUnprocessedForms = async (req: Request, res: Response) => {
+  const { formName } = req.params;
+  try {
+    // this is redundant as you can't hit the route without formName param, add dynamic checks later to match db form
+    if (!formName) {
+      res
+        .status(400)
+        .json({ message: "Error. Provide valid submission type name" });
+    }
+
+    const submissions = await selectUnprocessedSubmissions(formName);
+    res.status(200).json({ data: submissions });
+  } catch (error) {
+    if (error instanceof ZodError) {
+      // convert zod error to human readable
+      const validationError = fromZodError(error);
+
+      res.status(400).json({ message: validationError.toString() });
+    } else {
+      // Other types of errors
+      res.status(500).json({ message: "An error has occurred.", error });
     }
   }
 };
